@@ -33,4 +33,9 @@ public class MainActivity extends AppCompatActivity {
         outState.putParcelable(USER_MODEL, userModel);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        userModel.destroy();
+    }
 }
