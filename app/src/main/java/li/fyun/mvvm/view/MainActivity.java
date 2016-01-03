@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         if(savedInstanceState == null) {
-            userModel = UserModel.laodUser();
+            userModel = new UserModel();
         }else{
             userModel = savedInstanceState.getParcelable(USER_MODEL);
         }

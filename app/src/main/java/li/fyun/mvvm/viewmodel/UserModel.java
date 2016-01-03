@@ -4,13 +4,9 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 import li.fyun.mvvm.model.User;
 
@@ -22,7 +18,8 @@ public class UserModel implements ViewModel, Parcelable {
     public ObservableField<String> username = new ObservableField<>();
     public ObservableField<String> portrait = new ObservableField<>();
 
-    public UserModel(User user) {
+    public UserModel() {
+        User user = User.getUser();
         this.username.set(user.getUsername());
         this.portrait.set(user.getPortrait());
     }
@@ -33,9 +30,10 @@ public class UserModel implements ViewModel, Parcelable {
     }
 
     // just a sample logic
-    public static UserModel laodUser() {
+    public void reload() {
         User user = User.getUser();
-        return new UserModel(user);
+        this.username.set(user.getUsername());
+        this.portrait.set(user.getPortrait());
     }
 
     // use android parceable generator plugin to gen the code
@@ -67,25 +65,9 @@ public class UserModel implements ViewModel, Parcelable {
 
     @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
-        Log.e("Glide", "id: " + view.getId() + "; imageUrl:" + imageUrl);
         Glide.with(view.getContext())
                 .load(imageUrl)
                 .dontAnimate()
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean
-                            isFirstResource) {
-                        Log.e("onException", model);
-                        e.printStackTrace();
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        Log.e("onResourceReady", model);
-                        return false;
-                    }
-                })
                 .into(view);
     }
 

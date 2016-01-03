@@ -12,7 +12,6 @@ public class User {
             new User("Frank"), new User("Gary"), new User("Halen"), new User("Iris"), new User("Java")
     };
 
-
     private String username;
     private String portrait = "http://ww3.sinaimg.cn/large/620f1e7egw1ey8bjsbmr2j20b40b475e.jpg";
 
@@ -38,7 +37,7 @@ public class User {
 
     // just a sample logic
     public static User getUser() {
-        int index = new Random().nextInt(3);
+        int index = new Random().nextInt(users.length);
         return users[index];
     }
 
